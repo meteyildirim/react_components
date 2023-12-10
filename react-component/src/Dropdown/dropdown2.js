@@ -1,10 +1,16 @@
 import React, { useState, useRef, useEffect } from "react";
 
-const SubMenu = ({ items = [] }) => {
+const SubMenu = ({ items = [], toggleSubMenu }) => {
   return (
     <div
       className="submenu"
-      style={{ backgroundColor: "black", padding: "0rem", minWidth: "4rem" }}
+      id="id-submenu"
+      style={{
+        backgroundColor: "white",
+        padding: "0rem",
+        minWidth: "4rem",
+        border: "none",
+      }}
     >
       {items.map((menuItem, index) => (
         <div
@@ -13,17 +19,19 @@ const SubMenu = ({ items = [] }) => {
           className="submenu-item"
           onClick={menuItem.onClick}
           style={{
-            color: "white",
-            backgroundColor: "black",
-            //padding: "0.3rem 0.5rem",
+            color: "black",
+            border: "none",
+            backgroundColor: "white",
             cursor: "pointer",
             marginBottom: "0.1rem",
           }}
           onMouseEnter={(e) => {
-            document.getElementById(index).style.backgroundColor = "#201f1f";
+            document.getElementById(index).style.backgroundColor = "#EFEFEF";
+            e.stopPropagation();
           }}
           onMouseLeave={(e) => {
-            document.getElementById(index).style.backgroundColor = "#000000";
+            document.getElementById(index).style.backgroundColor = "#FFFFFF";
+            e.stopPropagation();
           }}
         >
           {menuItem.name}
@@ -73,54 +81,72 @@ const DropDownButton = ({ buttonName = "Save ", subMenuItems = [] }) => {
     setIsOpen(!isOpen);
   };
 
+  const subMainMenuStyle = {
+    position: "absolute",
+    backgroundColor: "white",
+    color: "white",
+    padding: "0.1rem",
+    minWidth: "6rem",
+    marginTop: isSubMenuAbove ? `-${subMenuItems.length * 40}px` : "0.1rem",
+    marginLeft: "0.8rem",
+    border: "none",
+    borderRadius: "3px",
+  };
+
   return (
     <div
       className="dropdown-button"
-      style={{ display: "inline-block", textAlign: "center" }}
+      style={{ display: "inline-block", textAlign: "center", border: "none" }}
+      onMouseEnter={(e) => {
+        e.target.style.backgroundColor = "#4a4949";
+        e.stopPropagation();
+      }}
+      onMouseLeave={(e) => {
+        e.target.style.backgroundColor = "#000000";
+        e.stopPropagation();
+      }}
     >
       <button
         className="button"
         onClick={null}
-        onMouseEnter={(e) => {
-          e.target.style.backgroundColor = "#201f1f";
-        }}
-        onMouseLeave={(e) => {
-          e.target.style.backgroundColor = "#000000";
-        }}
         style={{
           color: "white",
           backgroundColor: "#000000",
-          padding: "0.5rem",
+          padding: "0.3rem",
           border: "none",
           borderRadius: "4px",
         }}
         ref={buttonRef}
       >
-        {buttonName}{" "}
-        <span style={{ fontSize: "20px", padding: "5px", marginLeft: "3px" }}>
+        {buttonName}
+        <span
+          style={{
+            fontSize: "20px",
+            padding: "5px",
+            marginLeft: "3px",
+            backgroundColor: "none",
+            border: "none",
+          }}
+        >
           &#124;
         </span>
-        <span onClick={toggleSubMenu}>&#x25BD;</span>
+        <span
+          style={{
+            backgroundColor: "none",
+            border: "none",
+          }}
+          onClick={toggleSubMenu}
+        >
+          &#x25BD;
+        </span>
       </button>
       {isOpen && (
         <div
           className={`popup-menu ${isSubMenuAbove ? "above" : "below"}`}
           ref={menuRef}
-          style={{
-            position: "absolute",
-            backgroundColor: "#000000",
-            color: "white",
-            padding: "0.1rem",
-            minWidth: "6rem",
-            marginTop: isSubMenuAbove
-              ? `-${subMenuItems.length * 38}px`
-              : "0.1rem",
-            marginLeft: "0.8rem",
-            border: "none",
-            borderRadius: "3px",
-          }}
+          style={subMainMenuStyle}
         >
-          <SubMenu items={subMenuItems} />
+          <SubMenu items={subMenuItems} toggleSubMenu={toggleSubMenu} />
         </div>
       )}
     </div>
