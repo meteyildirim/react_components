@@ -20,7 +20,13 @@ const PopupMenu = ({ items, buttonLabel, classnamebtn, disabled }) => {
     if (event.key === "Escape") {
       setIsOpen(false);
     }
-    if (event.key === "Enter") {
+    if (event.key === "Enter" && isOpenM) {
+      event.stopPropagation();
+      console.log("enter");
+    }
+
+    if (event.key === "Enter" && !isOpenM) {
+      event.stopPropagation();
       mainBtnRef.current.click();
     }
     if (event.key === "Tab" && isOpen) {
@@ -44,15 +50,6 @@ const PopupMenu = ({ items, buttonLabel, classnamebtn, disabled }) => {
     setIsOpenM(true);
     mainBtnRef.current.focus();
   };
-
-  useEffect(() => {
-    mainBtnRef.current.addEventListener("keydown", handleKeyDown);
-    mainBtnRef.current.addEventListener("mouseover", onMouseOver);
-    return () => {
-      mainBtnRef.current.removeEventListener("keydown", handleKeyDown);
-      mainBtnRef.current.addEventListener("mouseover", onMouseOver);
-    };
-  }, []);
 
   useEffect(() => {
     const buttonRect = mainBtnRef.current.getBoundingClientRect();
@@ -115,14 +112,17 @@ const PopupMenu = ({ items, buttonLabel, classnamebtn, disabled }) => {
           className="popup-menu"
           ref={subMenuRef}
           style={{
-            marginTop: isSubMenuAbove ? `-${items.length * 55}px` : "0.1rem",
+            display: "block",
+            position: "relative",
+            right: "120px",
+            marginTop: isSubMenuAbove ? `-${items.length * 58}px` : "0.1rem",
             marginLeft: "1px",
           }}
         >
           <div
             className="popupmenuitems"
             onMouseLeave={() => setIsOpen(!isOpen)}
-            style={{ paddingLeft: "0px", marginRight: "120px" }}
+            style={{ textAlign: "right" }}
           >
             {items.map((item, index) => (
               <button
@@ -133,12 +133,13 @@ const PopupMenu = ({ items, buttonLabel, classnamebtn, disabled }) => {
                 style={{
                   backgroundColor: index === selectedItem ? "#fbe7e7" : "white",
                   listStyleType: "none",
-                  marginLeft: "0px",
                   display: "flex",
                   padding: "5px",
                   border: "none",
                   textOverflow: "ellipsis",
-                  whiteSpace: "normal",
+                  whiteSpace: "nowrap;",
+                  overflow: "hidden",
+                  textAlign: "right",
                 }}
                 onMouseEnter={() => {
                   const ele = document.getElementById(item.name);

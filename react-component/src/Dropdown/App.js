@@ -22,7 +22,7 @@ const App = () => {
     <>
       <div
         className="App"
-        style={{ top: "95%", left: "95%", position: "fixed" }}
+        style={{ top: "90%", left: "90%", position: "fixed" }}
       >
         <DropDownButton
           items={subMenuItems}
@@ -33,7 +33,7 @@ const App = () => {
 
       <div
         className="App"
-        style={{ top: "5%", left: "90%", position: "fixed" }}
+        style={{ top: "15%", left: "80%", position: "fixed" }}
       >
         <DropDownButton
           items={subMenuItems}
@@ -42,7 +42,10 @@ const App = () => {
         />
       </div>
 
-      <div className="App" style={{ top: "5%", left: "5%", position: "fixed" }}>
+      <div
+        className="App"
+        style={{ top: "15%", left: "15%", position: "fixed" }}
+      >
         <DropDownButton
           items={subMenuItems}
           buttonLabel={"Save"}
