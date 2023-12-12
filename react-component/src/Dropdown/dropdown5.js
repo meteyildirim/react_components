@@ -2,11 +2,12 @@ import React, { useState, useRef, useEffect } from "react";
 
 const PopupMenu = ({ items, buttonLabel, classnamebtn, disabled }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [rigtSide, setRightSide] = useState(0);
   const [selectedItem, setSelectedItem] = useState(0);
   const [isSubMenuAbove, setIsSubMenuAbove] = useState(false);
   const subMenuRef = useRef(null);
   const mainBtnRef = useRef(null);
-  const [isOpenM, setIsOpenM] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
   const handleClose = () => {
     setIsOpen(false);
   };
@@ -20,12 +21,13 @@ const PopupMenu = ({ items, buttonLabel, classnamebtn, disabled }) => {
     if (event.key === "Escape") {
       setIsOpen(false);
     }
-    if (event.key === "Enter" && isOpenM) {
+    if (event.key === "Enter" && isOpen) {
       event.stopPropagation();
-      console.log("enter");
+      handleClose();
+      !items[selectedItem].disabled && items[selectedItem].onClick();
     }
 
-    if (event.key === "Enter" && !isOpenM) {
+    if (event.key === "Enter" && !isFocused) {
       event.stopPropagation();
       mainBtnRef.current.click();
     }
@@ -47,14 +49,16 @@ const PopupMenu = ({ items, buttonLabel, classnamebtn, disabled }) => {
   };
 
   const onMouseOver = (e) => {
-    setIsOpenM(true);
+    setIsFocused(true);
     mainBtnRef.current.focus();
   };
 
   useEffect(() => {
     const buttonRect = mainBtnRef.current.getBoundingClientRect();
     const windowHeight = window.innerHeight;
+    const windowWidth = window.innerWidth;
     const spaceBelow = windowHeight - buttonRect.bottom;
+    setRightSide(windowWidth - buttonRect.left);
 
     if (spaceBelow < items.length * 30) {
       setIsSubMenuAbove(true);
@@ -63,24 +67,29 @@ const PopupMenu = ({ items, buttonLabel, classnamebtn, disabled }) => {
     }
   }, [items]);
 
+  const btnMinWidth = 180;
+  const btnHeight = 30;
+  const submenuitemHeight = 30;
+
   const styles = {
     savebutton: {
-      backgroundColor: isOpenM && !disabled ? "#3a3a3a" : "#616161",
+      backgroundColor: isFocused && !disabled ? "#3a3a3a" : "#616161",
       color: "white",
       border: "none",
-      padding: "10px 5px 10px",
+      padding: "5px",
       maxWidth: "fit-content",
       marginLeft: "auto",
       marginTop: "10px",
       borderRadius: "3px",
       outline: "none",
       minWidth: "60px",
-      height: "20px !important",
       fontFamily: "Arial, Helvetica, sans-serif",
       fontSize: "1em",
       alignItems: "center",
       whiteSpace: "nowrap",
       position: "relative",
+      disabled: disabled,
+      height: `${btnHeight}px`,
     },
   };
 
@@ -95,12 +104,13 @@ const PopupMenu = ({ items, buttonLabel, classnamebtn, disabled }) => {
         }`}
         style={styles.savebutton}
         onClick={() => {
-          setIsOpen(!isOpen);
+          setIsOpen(true);
+          setIsFocused(false);
           handleBlur();
         }}
         disabled={disabled}
         onMouseOver={() => onMouseOver()}
-        onMouseLeave={() => setIsOpenM(false)}
+        onMouseLeave={() => setIsFocused(false)}
         onKeyDown={handleKeyDown}
         ref={mainBtnRef}
       >
@@ -114,8 +124,13 @@ const PopupMenu = ({ items, buttonLabel, classnamebtn, disabled }) => {
           style={{
             display: "block",
             position: "relative",
-            right: "120px",
-            marginTop: isSubMenuAbove ? `-${items.length * 58}px` : "0.1rem",
+            right: `${rigtSide > btnMinWidth ? 0 : btnMinWidth - rigtSide}px`,
+            marginTop: isSubMenuAbove
+              ? `-${
+                  items.length * submenuitemHeight +
+                  mainBtnRef.current.getBoundingClientRect().height
+                }px`
+              : "0.1rem",
             marginLeft: "1px",
           }}
         >
@@ -133,13 +148,17 @@ const PopupMenu = ({ items, buttonLabel, classnamebtn, disabled }) => {
                 style={{
                   backgroundColor: index === selectedItem ? "#fbe7e7" : "white",
                   listStyleType: "none",
-                  display: "flex",
-                  padding: "5px",
+                  display: "block",
+                  padding: "7px",
                   border: "none",
-                  textOverflow: "ellipsis",
-                  whiteSpace: "nowrap;",
-                  overflow: "hidden",
-                  textAlign: "right",
+                  minWidth: `${btnMinWidth}px`,
+                  height: `${submenuitemHeight}px`,
+                  // textOverflow: "ellipsis",
+                  // whiteSpace: "nowrap;",
+                  // overflow: "hidden",
+                  textAlign: "left",
+                  // minWidth: "120px",
+                  // zIndex: "99999",
                 }}
                 onMouseEnter={() => {
                   const ele = document.getElementById(item.name);

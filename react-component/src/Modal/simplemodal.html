@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="simplemodal.css" />
+    <title>Modal</title>
+  </head>
+  <body>
+    <button style="display: subgrid">Here</button>
+    <section class="modal hidden">
+      <div class="flex">
+        <img src="user.png" width="50px" height="50px" alt="user" />
+        <button class="btn-close">⨉</button>
+      </div>
+      <div>
+        <h3>Stay in touch</h3>
+        <p>
+          This is a dummy newsletter form so don't bother trying to test it. Not
+          that I expect you to, anyways. :)
+        </p>
+      </div>
+
+      <input type="email" id="email" placeholder="brendaneich@js.com" />
+      <button class="btn">Submit</button>
+    </section>
+
+    <div class="overlay hidden"></div>
+    <button class="btn btn-open">Open Modal</button>
+    <script>
+      const modal = document.querySelector(".modal");
+      const overlay = document.querySelector(".overlay");
+      const openModalBtn = document.querySelector(".btn-open");
+      const closeModalBtn = document.querySelector(".btn-close");
+      const openModal = function () {
+        modal.classList.remove("hidden");
+        overlay.classList.remove("hidden");
+      };
+      openModalBtn.addEventListener("click", openModal);
+
+      const closeModal = function () {
+        modal.classList.add("hidden");
+        overlay.classList.add("hidden");
+      };
+
+      closeModalBtn.addEventListener("click", closeModal);
+
+      overlay.addEventListener("click", closeModal);
+
+      document.addEventListener("keydown");
+
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape" && !modal.classList.contains("hidden")) {
+          modalClose();
+        }
+      });
+    </script>
+  </body>
+</html>
