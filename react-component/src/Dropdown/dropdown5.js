@@ -78,16 +78,13 @@ const PopupMenu = ({ items, buttonLabel, classnamebtn, disabled }) => {
       border: "none",
       padding: "5px",
       maxWidth: "fit-content",
-      marginLeft: "auto",
+      marginLeft: "10px",
       marginTop: "10px",
       borderRadius: "3px",
       outline: "none",
       minWidth: "60px",
       fontFamily: "Arial, Helvetica, sans-serif",
       fontSize: "1em",
-      alignItems: "center",
-      whiteSpace: "nowrap",
-      position: "relative",
       disabled: disabled,
       height: `${btnHeight}px`,
     },
@@ -123,15 +120,16 @@ const PopupMenu = ({ items, buttonLabel, classnamebtn, disabled }) => {
           ref={subMenuRef}
           style={{
             display: "block",
-            position: "relative",
-            right: `${rigtSide > btnMinWidth ? 0 : btnMinWidth - rigtSide}px`,
+            position: "absolute",
+            float: "left",
+            // right: `${rigtSide > btnMinWidth ? 0 : btnMinWidth - rigtSide}px`,
             marginTop: isSubMenuAbove
               ? `-${
                   items.length * submenuitemHeight +
                   mainBtnRef.current.getBoundingClientRect().height
                 }px`
               : "0.1rem",
-            marginLeft: "1px",
+            marginLeft: "8px",
           }}
         >
           <div
@@ -149,7 +147,7 @@ const PopupMenu = ({ items, buttonLabel, classnamebtn, disabled }) => {
                   backgroundColor: index === selectedItem ? "#fbe7e7" : "white",
                   listStyleType: "none",
                   display: "block",
-                  padding: "7px",
+                  padding: "5px",
                   border: "none",
                   minWidth: `${btnMinWidth}px`,
                   height: `${submenuitemHeight}px`,
@@ -158,7 +156,8 @@ const PopupMenu = ({ items, buttonLabel, classnamebtn, disabled }) => {
                   // overflow: "hidden",
                   textAlign: "left",
                   // minWidth: "120px",
-                  // zIndex: "99999",
+                  zIndex: "99999",
+                  position: "relative",
                 }}
                 onMouseEnter={() => {
                   const ele = document.getElementById(item.name);
