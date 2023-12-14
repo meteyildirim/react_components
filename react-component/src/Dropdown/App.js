@@ -20,32 +20,13 @@ const subMenuItems = [
 const App = () => {
   return (
     <>
-      <div
-        className="App"
-        style={{ top: "90%", left: "95%", position: "fixed" }}
-      >
+      <div className="App" style={{ display: "flex" }}>
         <DropDownButton
           items={subMenuItems}
           buttonLabel={"Save"}
           disabled={false}
         />
-      </div>
 
-      <div
-        className="App"
-        style={{ top: "90%", left: "86%", position: "fixed" }}
-      >
-        <DropDownButton
-          items={subMenuItems}
-          buttonLabel={"Save"}
-          disabled={true}
-        />
-      </div>
-
-      <div
-        className="App"
-        style={{ top: "25%", left: "75%", position: "fixed" }}
-      >
         <DropDownButton
           items={subMenuItems}
           buttonLabel={"Save"}
