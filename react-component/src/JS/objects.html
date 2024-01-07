@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Object</title>
+  </head>
+  <body>
+    <select style="top: auto; bottom: 100%" name="" id="car"></select>
+    <p id="show"></p>
+    <script>
+      const carEle = document.querySelector("#car");
+      const showEle = document.querySelector("#show");
+      const car = {
+        brand: "Audi",
+        color: "red",
+        year: 2020,
+        engine: 3.0,
+        carInfo: function () {
+          return this.brand + " " + this.color;
+        },
+        carYear: function () {
+          return this.year;
+        },
+      };
+
+      for (let item in car) {
+        // console.log(item, ":", car[item]);
+        if (typeof item !== "function") {
+          carEle.innerHTML += `<option>${item} : ${car[item]} </option>`;
+        }
+      }
+      carEle.addEventListener("change", (e) => {
+        console.log(e.target.value);
+        showEle.innerHTML = e.target.value;
+      });
+    </script>
+  </body>
+</html>

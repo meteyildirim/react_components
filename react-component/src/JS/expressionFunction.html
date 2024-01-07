@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1 class="title">Expression Function</h1>
+    <input type="number" id="enterBirthYear" />
+    <button onclick="userAge()">Age</button>
+    <p1 id="showResultEle"></p1>
+
+    <script>
+      const resultEle = document.getElementById("showResultEle");
+
+      const userAge = () => {
+        let birthYear = document.getElementById("enterBirthYear").value;
+        resultEle.innerText = `Your age: ${
+          new Date().getFullYear() - birthYear
+        }`;
+      };
+    </script>
+  </body>
+</html>

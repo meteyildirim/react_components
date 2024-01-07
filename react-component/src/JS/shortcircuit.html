@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const userName = prompt("Your name:");
+      console.log(`Hello ${userName}!`);
+
+      //function check if a number is odd
+      function isOdd(num) {     
+        return num % 2 !== 0;
+      }
+
+      // diktorgenin alanin hesaplayan fonkisyon
+      function calculateArea(length, width){
+        if (isNaN(length)) throw new Error('Length must be a number');
+        if (isNaN(width)) throw new Error('Width must be a number');
+        return length * width;
+      }
+
+      // create a function to find out if a number is even
+      function isEven(n) {  
+        return !isOdd(n);
+        }
+    </script>
+  </body>
+</html>

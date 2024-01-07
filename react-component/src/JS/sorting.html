@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>sorting</title>
+  </head>
+  <body>
+    <div class="main" style="margin-top: 3rem">
+      <div class="enter">
+        <input type="text" placeholder="Enter to add to the list" id="input" />
+        <button id="add" onclick="addToList()" disabled>Add</button>
+      </div>
+      <div style="margin-top: 3rem">
+        <button id="sort">Sort</button>
+        <button id="reverse">Reverse</button>
+        <button id="remove-last">Remove last</button>
+        <button id="remove-first">Remove first</button>
+        <button id="clear">Clear</button>
+        <button id="mix">Mix</button>
+      </div>
+      <div>
+        <ul id="list"></ul>
+      </div>
+    </div>
+
+    <script>
+      const arrStore = [];
+      const listEle = document.querySelector("#list");
+      const add = document.getElementById("add");
+      const sortEle = document.getElementById("sort");
+      const reverseEle = document.getElementById("reverse");
+      const removeLast = document.getElementById("remove-last");
+      const removeFirst = document.getElementById("remove-first");
+      const clearEle = document.getElementById("clear");
+      const mixEle = document.getElementById("mix");
+      const inputEle = document.getElementById("input");
+
+      const addToList = () => {
+        if (!input.value) return;
+        listEle.innerHTML += `<li class="list">${inputEle.value}</li>`;
+        arrStore.push(inputEle.value);
+        inputEle.value = "";
+        inputEle.focus();
+      };
+
+      inputEle.addEventListener("input", () => {
+        if (inputEle.value.trim() !== "") {
+          add.disabled = false;
+        } else {
+          add.disabled = true;
+        }
+      });
+      sortEle.addEventListener("click", () => {
+        listEle.innerHTML = "";
+        arrStore.sort();
+        for (let item in arrStore) {
+          listEle.innerHTML += `<li class="list">${arrStore[item]}</li>`;
+        }
+      });
+      reverseEle.addEventListener("click", () => {
+        listEle.innerHTML = "";
+        arrStore.reverse();
+        for (let item in arrStore) {
+          listEle.innerHTML += `<li class="list">${arrStore[item]}</li>`;
+        }
+      });
+      removeLast.addEventListener("click", () => {
+        listEle.innerHTML = "";
+        arrStore.pop();
+        for (let item in arrStore) {
+          listEle.innerHTML += `<li class="list">${arrStore[item]}</li>`;
+        }
+      });
+
+      removeFirst.addEventListener("click", () => {
+        listEle.innerHTML = "";
+        arrStore.shift();
+        for (let item in arrStore) {
+          listEle.innerHTML += `<li class="list">${arrStore[item]}</li>`;
+        }
+      });
+
+      clearEle.addEventListener("click", () => {
+        listEle.innerHTML = "";
+        let arrLength = arrStore.length;
+        for (let item = 0; item < arrLength; item++) {
+          arrStore.splice(0, 1);
+          console.log(arrStore);
+        }
+      });
+
+      const randomInteger = (max) => {
+        return Math.floor(Math.random() * max);
+      };
+
+      mixEle.addEventListener("click", () => {
+        for (let item in arrStore) {
+          let randomInteger1 = randomInteger(arrStore.length);
+          let randomInteger2 = randomInteger(arrStore.length);
+          let temp = arrStore[randomInteger1];
+          arrStore[randomInteger1] = arrStore[randomInteger2];
+          arrStore[randomInteger2] = temp;
+        }
+        listEle.innerHTML = "";
+        for (let item in arrStore) {
+          listEle.innerHTML += `<li class="list">${arrStore[item]}</li>`;
+        }
+      });
+    </script>
+  </body>
+</html>
