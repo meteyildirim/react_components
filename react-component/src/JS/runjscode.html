@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Run Code on Button Click</title>
+  </head>
+  <body>
+    <textarea id="codeInput" placeholder="Enter your code here"></textarea>
+    <button id="runButton">Run Code</button>
+    <div id="output"></div>
+
+    <script>
+      document
+        .getElementById("runButton")
+        .addEventListener("click", function () {
+          // Get the code input from the textarea
+          const code = document.getElementById("codeInput").value;
+
+          try {
+            // Create a script element
+            const script = document.createElement("script");
+
+            // Set the script's content to the code entered by the user
+            script.textContent = code;
+
+            // Run the code by appending the script to the document
+            document.body.appendChild(script);
+          } catch (error) {
+            // If there's an error, display it in the output div
+            document.getElementById("output").innerText = `Error: ${error}`;
+          }
+        });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Map</title>
+    <p id="select"></p>
+  </head>
+  <body>
+    <iframe
+      src="https://codesandbox.io/embed/chw47j?view=Editor+%2B+Preview&module=%2Fsrc%2FApp.js"
+      style="
+        width: 100%;
+        height: 500px;
+        border: 0;
+        border-radius: 4px;
+        overflow: hidden;
+      "
+      title="primereact_demo (forked)"
+      allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+      sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+    ></iframe>
+    <script>
+      const arr = [1, 2, 3, 4, 5];
+
+      const oddNumberArr = arr.filter((number) => {
+        if (number % 2 !== 0) {
+          return number;
+        }
+      });
+
+      const options = arr.map((number) => {
+        return `<h1>${number}</h1>`;
+      });
+
+      console.log(oddNumberArr);
+      console.log(options);
+      document.getElementById("select").innerHTML = options;
+    </script>
+  </body>
+</html>
