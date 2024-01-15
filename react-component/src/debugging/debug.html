@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Debug</title>
+  </head>
+  <body>
+    <button id="btn">Click me</button>
+    <h1 id="res">Sonuc</h1>
+    <h2 id="show"></h2>
+    <script>
+      const btn = document.querySelector("#btn");
+      const show = document.querySelector("#show");
+
+      btn.addEventListener("click", () => {
+        let sum = 0;
+        for (let i = 0; i < 10; i++) {
+          sum += i;
+        }
+        show.innerHTML = sum;
+      });
+    </script>
+  </body>
+</html>

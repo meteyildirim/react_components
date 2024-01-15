@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Language Translation Example</title>
+    <style>
+      .error {
+        color: red;
+      }
+
+      .run-icon {
+        cursor: pointer;
+        color: blue;
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <label for="englishInput">English Input:</label>
+    <input
+      type="text"
+      id="englishInput"
+      oninput="showRunIcon('englishInput')"
+    />
+    <span
+      class="run-icon"
+      onclick="runTranslation('englishInput', 'en', ['de', 'fr', 'es'])"
+      >&#9658;</span
+    >
+    <span id="englishError" class="error"></span>
+
+    <label for="germanInput">German Input:</label>
+    <input type="text" id="germanInput" oninput="showRunIcon('germanInput')" />
+    <span
+      class="run-icon"
+      onclick="runTranslation('germanInput', 'de', ['en', 'fr', 'es'])"
+      >&#9658;</span
+    >
+    <span id="germanError" class="error"></span>
+
+    <label for="frenchInput">French Input:</label>
+    <input type="text" id="frenchInput" oninput="showRunIcon('frenchInput')" />
+    <span
+      class="run-icon"
+      onclick="runTranslation('frenchInput', 'fr', ['en', 'de', 'es'])"
+      >&#9658;</span
+    >
+    <span id="frenchError" class="error"></span>
+
+    <label for="spanishInput">Spanish Input:</label>
+    <input
+      type="text"
+      id="spanishInput"
+      oninput="showRunIcon('spanishInput')"
+    />
+    <span
+      class="run-icon"
+      onclick="runTranslation('spanishInput', 'es', ['en', 'de', 'fr'])"
+      >&#9658;</span
+    >
+    <span id="spanishError" class="error"></span>
+
+    <script src="https://cdn.jsdelivr.net/npm/@vitalets/google-translate-api"></script>
+    <script>
+      async function showRunIcon(inputId) {
+        const input = document.getElementById(inputId);
+        const runIcon = input.nextElementSibling;
+        const error = document.getElementById(`${inputId}Error`);
+
+        try {
+          await detectLanguage(input.value, inputId);
+          runIcon.style.display = "inline";
+          error.textContent = "";
+        } catch (e) {
+          runIcon.style.display = "none";
+          error.textContent = "Retry. The language is not recognized.";
+          input.value = "";
+        }
+      }
+
+      async function detectLanguage(text, inputId) {
+        const response = await fetch(
+          `https://cors-anywhere.herokuapp.com/https://translation.googleapis.com/language/translate/v2/detect?key=YOUR_GOOGLE_TRANSLATE_API_KEY`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              q: text,
+            }),
+          }
+        );
+
+        const data = await response.json();
+        const detectedLanguage = data.data.detections[0][0].language;
+
+        if (inputId === "englishInput" && detectedLanguage !== "en") {
+          throw new Error("Language not recognized");
+        } else if (inputId === "germanInput" && detectedLanguage !== "de") {
+          throw new Error("Language not recognized");
+        } else if (inputId === "frenchInput" && detectedLanguage !== "fr") {
+          throw new Error("Language not recognized");
+        } else if (inputId === "spanishInput" && detectedLanguage !== "es") {
+          throw new Error("Language not recognized");
+        }
+
+        return detectedLanguage;
+      }
+
+      async function runTranslation(
+        sourceInputId,
+        sourceLanguage,
+        targetInputIds
+      ) {
+        const sourceInput = document.getElementById(sourceInputId);
+
+        for (const targetInputId of targetInputIds) {
+          const targetInput = document.getElementById(targetInputId);
+          const targetLanguage = targetInputId.includes("english")
+            ? "en"
+            : targetInputId.includes("german")
+            ? "de"
+            : targetInputId.includes("french")
+            ? "fr"
+            : "es";
+
+          const translatedText = await translateTextToTarget(
+            sourceInput.value,
+            sourceLanguage,
+            targetLanguage
+          );
+
+          targetInput.value = translatedText;
+          targetInput.nextElementSibling.style.display = "inline";
+          document.getElementById(`${targetInputId}Error`).textContent = "";
+        }
+      }
+
+      async function translateTextToTarget(
+        text,
+        sourceLanguage,
+        targetLanguage
+      ) {
+        const response = await fetch(
+          `https://cors-anywhere.herokuapp.com/https://translation.googleapis.com/language/translate/v2?key=YOUR_GOOGLE_TRANSLATE_API_KEY`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              q: text,
+              source: sourceLanguage,
+              target: targetLanguage,
+            }),
+          }
+        );
+
+        const data = await response.json();
+        return data.data.translations[0].translatedText;
+      }
+    </script>
+  </body>
+</html>
