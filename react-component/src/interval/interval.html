@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Interval</title>
+  </head>
+  <body>
+    <button id="start">Start</button>
+    <button id="stop">Stop</button>
+    <ul id="list"></ul>
+
+    <script>
+      const start = document.querySelector("#start");
+      const stop = document.querySelector("#stop");
+      const list = document.querySelector("#list");
+      let interval = null;
+      let counter = 0;
+
+      start.addEventListener("click", () => {
+        interval = setInterval(() => {
+          counter += 1;
+          list.innerHTML = `<li>${counter}</li>`;
+        }, 1000);
+      });
+      stop.addEventListener("click", () => {
+        clearInterval(interval);
+        interval = null;
+      });
+    </script>
+  </body>
+</html>
