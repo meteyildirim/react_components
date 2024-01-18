@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      let arr = ["a", "b", "c"];
+
+      // Step 1: Create a shallow copy of the array using the spread operator
+      let shallowCopy = [...arr]; // shallowCopy = ["a", "b", "c"]
+
+      // Step 2: Use splice on the shallow copy to insert "k" at index 1
+      shallowCopy.splice(1, 0, "k"); // shallowCopy = ["a", "k", "b", "c"]
+
+      // Result:
+      console.log("Original Array:", arr); // Output: Original Array: ["a", "b", "c"]
+      console.log("Modified Array:", shallowCopy); // Output: Modified Array: ["a", "k", "b", "c"]
+
+      let arr1 = ["a", "b", "c"];
+
+      // Use the spread operator directly within splice
+      arr1.splice(1, 0, ...["k"]);
+
+      // Result:
+      console.log("Modified Array:", arr); // Output: Modified Array: ["a", "k", "b", "c"]
+    </script>
+  </body>
+</html>
